@@ -81,7 +81,7 @@ public class CreateNewField extends AppCompatActivity {
                 Toast.makeText(CreateNewField.this, "" + uid, Toast.LENGTH_SHORT).show();
                 DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
 //                String query = output.getText().toString();
-                String query = "KfgPfT3KyNrittHgxLz";
+                String query = "big one";
                         DatabaseReference fileds = myRef1.child(uid);
                 Query filedQuery = fileds.orderByKey().startAt(query).endAt(query + "\uf8ff");
                 filedQuery.addValueEventListener(new ValueEventListener() {
