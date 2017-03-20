@@ -14,10 +14,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CreateNewField extends AppCompatActivity {
 
@@ -61,13 +63,12 @@ public class CreateNewField extends AppCompatActivity {
                 mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
                 String uid = mFirebaseAuth.getCurrentUser().getUid();
                 final HashMap<String, String> map1 = new HashMap<>();
-                map1.put("Field Name", name.getText().toString());
                 map1.put("Crop",  crop.getText().toString());
                 map1.put("Spray applied", sparyApplied.getText().toString());
                 map1.put("Date Of Spraying", dateSpray.getText().toString());
                 map1.put("Date Plented", datePlanted.getText().toString());
                 map1.put("Location", location.getText().toString());
-                mFirebaseDatabase.child("users").child(uid).push().setValue(map1);
+                mFirebaseDatabase.child("users").child(uid).child(name.getText().toString()).push().setValue(map1);
 
 
 
@@ -77,27 +78,49 @@ public class CreateNewField extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String uid = mFirebaseAuth.getCurrentUser().getUid();
-                Toast.makeText(CreateNewField.this, ""+uid, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateNewField.this, "" + uid, Toast.LENGTH_SHORT).show();
                 DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
-
-                myRef1.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+//                String query = output.getText().toString();
+                String query = "KfgPfT3KyNrittHgxLz";
+                        DatabaseReference fileds = myRef1.child(uid);
+                Query filedQuery = fileds.orderByKey().startAt(query).endAt(query + "\uf8ff");
+                filedQuery.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        output.setText(dataSnapshot.getValue().toString());
+                        List<String> fileds = new ArrayList<String>();
+
+                        for (DataSnapshot postSanpShot : dataSnapshot.getChildren()) {
+                            fileds.add(postSanpShot.getValue().toString());
+                        }
+                        location.setText(fileds.toString());
+                        Toast.makeText(CreateNewField.this, ""+fileds.toString(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        output.setText(databaseError.toString());
+
                     }
                 });
 
+
+////                myRef1.child("users").child(uid).addValueEventListener(new ValueEventListener()
+//                myRef1.orderByChild(uid).equalTo(query).addValueEventListener(new ValueEventListener()
+//                {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        output.setText(dataSnapshot.getValue().toString());
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        output.setText(databaseError.toString());
+//                    }
+//                });
+//
         }
         });
 
 
-
-
-    }
+               }
 
 }

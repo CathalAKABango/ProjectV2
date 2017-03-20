@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainMenu extends AppCompatActivity {
 
-    Button signout, map, createNewField;
+    Button signout, map, createNewField, histroy;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser myFirebaseUser;
 
@@ -50,5 +50,11 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(MainMenu.this, CreateNewField.class));
             }
         });
+//        histroy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainMenu.this, ViewHistory.class));
+//            }
+//        });
     }
 }

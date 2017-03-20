@@ -52,8 +52,11 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBK-vKbtlZHxI7h-O46lgyTnu8_FlZcIhg" />
 
-        <activity android:name=".CreateNewField"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".CreateNewField"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".ViewHistory" >
         </activity>
     </application>
 
