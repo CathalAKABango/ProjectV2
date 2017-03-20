@@ -78,4 +78,15 @@
         android:id="@+id/Viewbutton"
         android:layout_above="@+id/Savebutton"
         android:layout_alignStart="@+id/Savebutton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location"
+        android:layout_below="@+id/Comments"
+        android:layout_alignStart="@+id/Comments"
+        android:text="Field Location"
+        android:hint="Field Location"
+        android:editable="false"
+        android:lines="2"/>
 </RelativeLayout>

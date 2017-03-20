@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateNewField extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class CreateNewField extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     Button save, view;
     TextView output;
-    EditText name, crop, datePlanted, dateSpray, sparyApplied;
+    EditText name, crop, datePlanted, dateSpray, sparyApplied, location;
 
 
     @Override
@@ -39,7 +41,15 @@ public class CreateNewField extends AppCompatActivity {
         save = (Button)findViewById(R.id.Savebutton);
         view = (Button)findViewById(R.id.Viewbutton);
         output = (TextView)findViewById(R.id.Comments);
-
+        location = (EditText) findViewById(R.id.location);
+        ArrayList<LatLng> cordinates =  (ArrayList<LatLng>)getIntent().getSerializableExtra("arrayPoints");
+//        Toast.makeText(CreateNewField.this, ""+cordinates, Toast.LENGTH_SHORT).show();
+        try{
+            location.setText(cordinates.toString());
+        }
+        catch (Exception e){
+            location.setText("No Location to fill");
+        }
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getEmail();
 
@@ -56,6 +66,7 @@ public class CreateNewField extends AppCompatActivity {
                 map1.put("Spray applied", sparyApplied.getText().toString());
                 map1.put("Date Of Spraying", dateSpray.getText().toString());
                 map1.put("Date Plented", datePlanted.getText().toString());
+                map1.put("Location", location.getText().toString());
                 mFirebaseDatabase.child("users").child(uid).push().setValue(map1);
 
 

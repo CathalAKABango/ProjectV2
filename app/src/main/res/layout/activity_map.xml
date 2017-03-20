@@ -31,14 +31,24 @@
         android:text="Calculate Area"
         android:id="@+id/CalculateArea"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/CreatWithCordi" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to main menu"
+        android:text="Main Menu"
         android:id="@+id/backButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Field"
+        android:id="@+id/CreatWithCordi"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/backButton" />
 
 </RelativeLayout>

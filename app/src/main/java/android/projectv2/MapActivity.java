@@ -39,7 +39,7 @@ public class MapActivity extends AppCompatActivity implements
     private String TAG;
     protected double myLat, myLong;
 
-    Button back, calculate;
+    Button back, calculate, create;
 
 
     @Override
@@ -51,41 +51,32 @@ public class MapActivity extends AppCompatActivity implements
 
         SupportMapFragment googleMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googleMap.getMapAsync(this);
-        back = (Button)findViewById(R.id.backbutton);
+        back = (Button)findViewById(R.id.backButton);
         calculate = (Button)findViewById(R.id.CalculateArea);
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                backtomenu();
-//                startActivity(new Intent(MapActivity.this, MainMenu.class));
-//
-//            }
-//        });
-        calculate.setOnClickListener(new View.OnClickListener() {
+        create = (Button)findViewById(R.id.CreatWithCordi);
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                calculateAreaFunction();
+                Intent intent = new Intent(MapActivity.this, CreateNewField.class);
+                intent.putExtra("arrayPoints", arrayPoints);
+                startActivity(intent);
+
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(MapActivity.this, MainMenu.class));
             }
         });
 
     }
 
-    private void backtomenu() {
-        startActivity(new Intent(MapActivity.this, MainMenu.class));
-    }
-
-
     public void onMapReady(GoogleMap gmap) {
         googleMap = gmap;
 
        googleMap.setMyLocationEnabled(true);
-//
         googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
-//        LatLng myloaction = new LatLng(myLat, myLong);
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myloaction, 17));
-////
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -102,14 +93,7 @@ public class MapActivity extends AppCompatActivity implements
         googleMap.setOnMarkerDragListener(this);
 
         calculate = (Button)findViewById(R.id.CalculateArea);
-//        back = (Button)findViewById(R.id.backbutton);
-//
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MapActivity.this, MainMenu.class));
-//            }
-//        });
+
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
