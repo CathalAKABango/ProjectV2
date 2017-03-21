@@ -23,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
         signout = (Button)findViewById(R.id.signoutButton);
         map = (Button)findViewById(R.id.mapLaunch);
         createNewField =(Button)findViewById(R.id.CreateField);
+        histroy = (Button)findViewById(R.id.history);
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser();
 
@@ -50,11 +51,11 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(new Intent(MainMenu.this, CreateNewField.class));
             }
         });
-//        histroy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainMenu.this, ViewHistory.class));
-//            }
-//        });
+        histroy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenu.this, ViewHistory.class));
+            }
+        });
     }
 }

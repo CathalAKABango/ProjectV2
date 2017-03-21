@@ -82,7 +82,7 @@ public class CreateNewField extends AppCompatActivity {
                 DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
 //                String query = output.getText().toString();
                 String query = "big one";
-                        DatabaseReference fileds = myRef1.child(uid);
+                        DatabaseReference fileds = myRef1.child("users").child(uid);
                 Query filedQuery = fileds.orderByKey().startAt(query).endAt(query + "\uf8ff");
                 filedQuery.addValueEventListener(new ValueEventListener() {
                     @Override
