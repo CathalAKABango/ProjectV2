@@ -6,20 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CreateNewField extends AppCompatActivity {
 
@@ -28,7 +22,7 @@ public class CreateNewField extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     Button save, view;
     TextView output;
-    EditText name, crop, datePlanted, dateSpray, sparyApplied, location;
+    EditText name, crop, datePlanted, dateSpray, sparyApplied, location, year;
 
 
     @Override
@@ -43,9 +37,9 @@ public class CreateNewField extends AppCompatActivity {
         save = (Button)findViewById(R.id.Savebutton);
         view = (Button)findViewById(R.id.Viewbutton);
         output = (TextView)findViewById(R.id.Comments);
-        location = (EditText) findViewById(R.id.location);
-        ArrayList<LatLng> cordinates =  (ArrayList<LatLng>)getIntent().getSerializableExtra("arrayPoints");
-//        Toast.makeText(CreateNewField.this, ""+cordinates, Toast.LENGTH_SHORT).show();
+        location = (EditText) findViewById(R.id.area);
+        year = (EditText) findViewById(R.id.Year);
+        final ArrayList<LatLng> cordinates =  (ArrayList<LatLng>)getIntent().getSerializableExtra("arrayPoints");
         try{
             location.setText(cordinates.toString());
         }
@@ -53,7 +47,7 @@ public class CreateNewField extends AppCompatActivity {
             location.setText("No Location to fill");
         }
         mFirebaseAuth = FirebaseAuth.getInstance();
-        myFirebaseUser = mFirebaseAuth.getCurrentUser().getEmail();
+//        myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
 
 
 
@@ -61,66 +55,20 @@ public class CreateNewField extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
-                String uid = mFirebaseAuth.getCurrentUser().getUid();
+                String username = mFirebaseAuth.getCurrentUser().getDisplayName();
                 final HashMap<String, String> map1 = new HashMap<>();
                 map1.put("Crop",  crop.getText().toString());
                 map1.put("Spray applied", sparyApplied.getText().toString());
                 map1.put("Date Of Spraying", dateSpray.getText().toString());
                 map1.put("Date Plented", datePlanted.getText().toString());
                 map1.put("Location", location.getText().toString());
-                mFirebaseDatabase.child("users").child(uid).child(name.getText().toString()).push().setValue(map1);
+                map1.put("Comments", output.getText().toString());
+                mFirebaseDatabase.child("users").child(username).child(name.getText().toString()).child(year.getText().toString()).setValue(map1);
 
 
 
             }
         });
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String uid = mFirebaseAuth.getCurrentUser().getUid();
-                Toast.makeText(CreateNewField.this, "" + uid, Toast.LENGTH_SHORT).show();
-                DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
-//                String query = output.getText().toString();
-                String query = "big one";
-                        DatabaseReference fileds = myRef1.child("users").child(uid);
-                Query filedQuery = fileds.orderByKey().startAt(query).endAt(query + "\uf8ff");
-                filedQuery.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<String> fileds = new ArrayList<String>();
-
-                        for (DataSnapshot postSanpShot : dataSnapshot.getChildren()) {
-                            fileds.add(postSanpShot.getValue().toString());
-                        }
-                        location.setText(fileds.toString());
-                        Toast.makeText(CreateNewField.this, ""+fileds.toString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-////                myRef1.child("users").child(uid).addValueEventListener(new ValueEventListener()
-//                myRef1.orderByChild(uid).equalTo(query).addValueEventListener(new ValueEventListener()
-//                {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        output.setText(dataSnapshot.getValue().toString());
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        output.setText(databaseError.toString());
-//                    }
-//                });
-//
-        }
-        });
-
-
-               }
+    }
 
 }

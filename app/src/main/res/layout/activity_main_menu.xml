@@ -49,4 +49,12 @@
         android:id="@+id/history"
         android:layout_below="@+id/CreateField"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find hostroy using maps"
+        android:id="@+id/launchmaphistroy"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/history" />
 </RelativeLayout>

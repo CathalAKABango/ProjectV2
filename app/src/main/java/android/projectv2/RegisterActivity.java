@@ -14,13 +14,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 
 
 public class RegisterActivity extends AppCompatActivity {
 
     private Button register, login;
-    private EditText inputemail, inputpassword;
-
+    private EditText inputemail, inputpassword, username;
+    private DatabaseReference mFirebaseDatabase;
     private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         login = (Button)findViewById(R.id.backToLogin);
         inputemail = (EditText)findViewById(R.id.emailAddress);
         inputpassword = (EditText)findViewById(R.id.password);
+        username = (EditText)findViewById(R.id.username);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,12 +51,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = inputemail.getText().toString().trim();
                 String password = inputpassword.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(),"Enter a valid email", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Enter a valid email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(getApplicationContext(),"Enter a password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter a password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.length() < 6) {
@@ -71,6 +75,20 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(username.getText().toString())
+                                            .build();
+
+                                    user.updateProfile(profileUpdates)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(RegisterActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                     startActivity(new Intent(RegisterActivity.this, MainMenu.class));
                                     finish();
                                 }
@@ -79,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 }

@@ -22,17 +22,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Crop"
-        android:layout_below="@+id/Fieldname"
-        android:layout_alignStart="@+id/Fieldname"
-        android:hint="Crop This Season" />
+        android:hint="Crop This Season"
+        android:layout_above="@+id/spray"
+        android:layout_alignStart="@+id/Fieldname" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spray"
-        android:layout_below="@+id/Crop"
-        android:layout_alignStart="@+id/Crop"
-        android:hint="Spray being applied" />
+        android:hint="Spray being applied"
+        android:layout_above="@+id/dateCropPlanted"
+        android:layout_alignStart="@+id/Crop" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -40,9 +40,9 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/dateCropPlanted"
-        android:layout_below="@+id/spray"
-        android:layout_alignStart="@+id/spray"
-        android:hint="Date of crop planted" />
+        android:hint="Date of crop planted"
+        android:layout_above="@+id/dateofspraying"
+        android:layout_alignStart="@+id/spray" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,17 +50,17 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/dateofspraying"
-        android:layout_below="@+id/dateCropPlanted"
-        android:layout_alignStart="@+id/dateCropPlanted"
-        android:hint="Date of spraying" />
+        android:hint="Date of spraying"
+        android:layout_above="@+id/Comments"
+        android:layout_alignStart="@+id/dateCropPlanted" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Comments"
-        android:layout_below="@+id/dateofspraying"
-        android:layout_alignStart="@+id/dateofspraying"
-        android:hint="General comments" />
+        android:hint="General comments"
+        android:layout_above="@+id/area"
+        android:layout_alignStart="@+id/dateofspraying" />
 
     <Button
         android:layout_width="wrap_content"
@@ -82,11 +82,19 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/location"
-        android:layout_below="@+id/Comments"
-        android:layout_alignStart="@+id/Comments"
-        android:text="Field Location"
-        android:hint="Field Location"
+        android:id="@+id/area"
+        android:text="Field area"
         android:editable="false"
-        android:lines="2"/>
+        android:lines="1"
+        android:layout_above="@+id/Viewbutton"
+        android:layout_alignStart="@+id/Comments" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Year"
+        android:layout_below="@+id/Fieldname"
+        android:layout_alignStart="@+id/Fieldname"
+        android:hint="Year"
+        />
 </RelativeLayout>

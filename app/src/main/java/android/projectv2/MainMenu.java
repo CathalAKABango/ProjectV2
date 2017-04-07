@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainMenu extends AppCompatActivity {
 
-    Button signout, map, createNewField, histroy;
+    Button signout, map, createNewField, histroy, maphistory;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser myFirebaseUser;
 
@@ -24,6 +24,7 @@ public class MainMenu extends AppCompatActivity {
         map = (Button)findViewById(R.id.mapLaunch);
         createNewField =(Button)findViewById(R.id.CreateField);
         histroy = (Button)findViewById(R.id.history);
+        maphistory = (Button)findViewById(R.id.launchmaphistroy);
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser();
 
@@ -55,6 +56,12 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainMenu.this, ViewHistory.class));
+            }
+        });
+        maphistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenu.this, FindHistoryWithMap.class));
             }
         });
     }
