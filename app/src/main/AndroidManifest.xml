@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <service android:name=".GeofenceTransitionsIntentService"/>
+        <service android:name=".GeofenceTransitionsIntentService" />
+
         <activity
             android:name=".WelcomeActivity"
             android:screenOrientation="portrait" >
@@ -61,6 +62,8 @@
         <activity android:name=".ViewHistory" >
         </activity>
         <activity android:name=".FindHistoryWithMap" >
+        </activity>
+        <activity android:name=".CropWalk" >
         </activity>
     </application>
 

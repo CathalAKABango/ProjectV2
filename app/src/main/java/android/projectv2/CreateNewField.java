@@ -63,7 +63,8 @@ public class CreateNewField extends AppCompatActivity {
                 map1.put("Date Plented", datePlanted.getText().toString());
                 map1.put("Location", location.getText().toString());
                 map1.put("Comments", output.getText().toString());
-                mFirebaseDatabase.child("users").child(username).child(name.getText().toString()).child(year.getText().toString()).setValue(map1);
+                map1.put("Year", year.getText().toString());
+                mFirebaseDatabase.child("users").child(username).child(name.getText().toString()).setValue(map1);
 
 
 

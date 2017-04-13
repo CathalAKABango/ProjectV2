@@ -61,7 +61,7 @@ public class MainMenu extends AppCompatActivity {
         maphistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainMenu.this, FindHistoryWithMap.class));
+                startActivity(new Intent(MainMenu.this, CropWalk.class));
             }
         });
     }

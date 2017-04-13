@@ -42,127 +42,90 @@ public class ViewHistory extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
 
-        String administrator = myFirebaseUser.toString();
-//
-//        if(myFirebaseUser.equals("admin")){
-//            search.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
-//                    final String query = searchquery.getText().toString();
-//                    DatabaseReference fileds = myRef1.child("users");
-//                    Query filedQuery = fileds.orderByKey().startAt(query).endAt(query + "\uf8ff");
-//                    filedQuery.addChildEventListener(new ChildEventListener()  {
-//
-//                        @Override
-//                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                            Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
-//                            String crp = pulldown.get("Crop").toString();
-//                            crop.setText(crp);
-//                        }
-//
-//                        @Override
-//                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//                }
-//            });
-//
-//
-//        }
-
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    final String year = crop.getText().toString();
-                    String uid = mFirebaseAuth.getCurrentUser().getDisplayName();
-                    DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
+                final String year = crop.getText().toString();
+                DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
+                String name = mFirebaseAuth.getCurrentUser().getDisplayName();
+                final String queryword = searchquery.getText().toString();
+                DatabaseReference fileds = myRef1.child("users").child(name);
+                final Query filedQuery = fileds.orderByKey().startAt(queryword).endAt(queryword + "\uf8ff");
 
-                    final String query = searchquery.getText().toString();
-                    DatabaseReference fileds = myRef1.child("users").child(uid).child(query);
-                    Query filedQuery = fileds.orderByKey().startAt(year).endAt(year + "\uf8ff");
-                    filedQuery.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
-                            String crp = pulldown.get("Crop").toString();
-                            String spry = pulldown.get("Spray applied").toString();
-                            String commen = pulldown.get("Comments").toString();
-                            String dasparayed = pulldown.get("Date Of Spraying").toString();
-                            String daplanted = pulldown.get("Date Plented").toString();
-                            String locatio = pulldown.get("Location").toString();
-                            crop.setText(crp);
-                            spray.setText(spry);
-                            dateplanted.setText(daplanted);
-                            datesparayed.setText(dasparayed);
-                            comments.setText(commen);
-                            location.setText(locatio);
+                filedQuery.addChildEventListener(new ChildEventListener()  {
+
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
+                        if (pulldown.containsValue(year)){
+                        String crp = pulldown.get("Crop").toString();
+                        String spry = pulldown.get("Spray applied").toString();
+                        String commen = pulldown.get("Comments").toString();
+                        String dasparayed = pulldown.get("Date Of Spraying").toString();
+                        String daplanted = pulldown.get("Date Plented").toString();
+                        String locatio = pulldown.get("Location").toString();
+                        crop.setText(crp);
+                        spray.setText(spry);
+                        dateplanted.setText(daplanted);
+                        datesparayed.setText(dasparayed);
+                        comments.setText(commen);
+                        location.setText(locatio);
+                        Toast.makeText(ViewHistory.this, "finally here", Toast.LENGTH_SHORT).show();}
+                        else {
+                            Toast.makeText(ViewHistory.this, "Sorry no results for that year", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    }
 
-                        }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
 
-                        }
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    }
 
-                        }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
+    }
+}
+//                filedQuery.addChildEventListener(new ChildEventListener() {
 
-                        }
-                    });
-                }catch (Exception e){
-                    Toast.makeText(ViewHistory.this, "No Records Where Found", Toast.LENGTH_SHORT).show();
-                }
-
-//                filedQuery.addChildEventListener(new ChildEventListener()  {
-//
 //                    @Override
 //                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                        Toast.makeText(ViewHistory.this, "in snapshot", Toast.LENGTH_SHORT).show();
 //                        Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
 //                        String crp = pulldown.get("Crop").toString();
-//                        String spry = pulldown.get("Spray applied").toString();
-//                        String commen = pulldown.get("Comments").toString();
-//                        String dasparayed = pulldown.get("Date Of Spraying").toString();
-//                        String daplanted = pulldown.get("Date Plented").toString();
-//                        String locatio = pulldown.get("Location").toString();
+////                        String spry = pulldown.get("Spray applied").toString();
+////                        String commen = pulldown.get("Comments").toString();
+////                        String dasparayed = pulldown.get("Date Of Spraying").toString();
+////                        String daplanted = pulldown.get("Date Plented").toString();
+////                        String locatio = pulldown.get("Location").toString();
 //                        crop.setText(crp);
-//                        spray.setText(spry);
-//                        dateplanted.setText(daplanted);
-//                        datesparayed.setText(dasparayed);
-//                        comments.setText(commen);
-//                        location.setText(locatio);
+////                        spray.setText(spry);
+////                        dateplanted.setText(daplanted);
+////                        datesparayed.setText(dasparayed);
+////                        comments.setText(commen);
+////                        location.setText(locatio);
+////                        Toast.makeText(ViewHistory.this, filedQuery.toString()+" in here", Toast.LENGTH_SHORT).show();
+//
 //                    }
+//
 //
 //                    @Override
 //                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
+//                        Toast.makeText(ViewHistory.this, "hello from here", Toast.LENGTH_SHORT).show();
 //                    }
 //
 //                    @Override
@@ -180,7 +143,26 @@ public class ViewHistory extends AppCompatActivity {
 //
 //                    }
 //                });
-            }
-        });
-    }
-}
+//                filedQuery.addValueEventListener(new ValueEventListener() {
+//                                        @Override
+//                                       public void onDataChange(DataSnapshot dataSnapshot) {
+//                                            Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
+//                                            String commen = pulldown.get("Comments").toString();
+//                                            String crp = pulldown.get("Crop").toString();
+//                                            String dasparayed = pulldown.get("Date Of Spraying").toString();
+//                                            String daplanted = pulldown.get("Date Plented").toString();
+//                                            String locatio = pulldown.get("Location").toString();
+//                                            String spry = pulldown.get("Spray applied").toString();
+//                                            crop.setText(crp);
+//                                            spray.setText(spry);
+//                                            dateplanted.setText(daplanted);
+//                                            datesparayed.setText(dasparayed);
+//                                            comments.setText(commen);
+//                                            location.setText(locatio);
+//                                            Toast.makeText(ViewHistory.this, "finally here", Toast.LENGTH_SHORT).show();
+//                                          }
+//                                                @Override
+//                                       public void onCancelled(DatabaseError databaseError) {
+//
+//                                                    }
+//                                   });
