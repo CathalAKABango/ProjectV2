@@ -1,6 +1,9 @@
 package android.projectv2;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class CropWalk extends AppCompatActivity {
@@ -23,9 +28,12 @@ public class CropWalk extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabase;
     private String myFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
-    Button search, save;
+    Button search, save,btnSpeak;
     String crp, spry, commen,dasparayed,daplanted,locatio,yeardown;
     EditText fieldnamein, yearin, commentsin;
+
+    
+    private final int REQ_CODE_SPEECH_INPUT = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +44,7 @@ public class CropWalk extends AppCompatActivity {
         fieldnamein = (EditText)findViewById(R.id.CropWalkField);
         yearin = (EditText)findViewById(R.id.CropWalkYear);
         commentsin = (EditText)findViewById(R.id.CropWalkComments);
+        btnSpeak = (Button)findViewById(R.id.btnSpeak);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
@@ -114,6 +123,47 @@ public class CropWalk extends AppCompatActivity {
 
             }
         });
+btnSpeak.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        promptSpeechInput();
+    }
+});
+    }
+
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Say Something");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(CropWalk.this, "Sorry device not supported", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Receiving speech input
+     * */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    commentsin.setText(result.get(0)+commen);
+                }
+                break;
+            }
+
+        }
 
     }
 }

@@ -48,4 +48,13 @@
         android:id="@+id/updateCropWalk"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/searchforcropwalk" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Speech to text"
+        android:id="@+id/btnSpeak"
+        android:layout_above="@+id/searchforcropwalk"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
