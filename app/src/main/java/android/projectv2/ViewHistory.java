@@ -41,6 +41,15 @@ public class ViewHistory extends AppCompatActivity {
         datesparayed = (EditText)findViewById(R.id.dateofspraying);
         comments = (EditText)findViewById(R.id.Comments);
 
+        final String commentsin =  (String)getIntent().getSerializableExtra("details");
+        try{
+            comments.setText(commentsin.toString());
+            Toast.makeText(ViewHistory.this, "Please read your comments for details of the crop walk", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+        comments.setText("no comments left from crop walk");
+        }
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
 

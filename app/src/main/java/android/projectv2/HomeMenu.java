@@ -1,6 +1,5 @@
 package android.projectv2;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -21,7 +22,6 @@ public class HomeMenu extends AppCompatActivity
         setContentView(R.layout.activity_for_nav_drwaer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,16 +44,10 @@ public class HomeMenu extends AppCompatActivity
     }
 
 
-
-//    3
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
 
-        Fragment fragment = null;
-        Class fragementClass;
         int id = item.getItemId();
 
         if (id == R.id.creaeField) {
@@ -68,6 +62,10 @@ public class HomeMenu extends AppCompatActivity
             startActivity(new Intent(HomeMenu.this, CropWalk.class));
         } else if (id == R.id.history) {
             startActivity(new Intent(HomeMenu.this, ViewHistory.class));
+        }
+        else if (id == R.id.signout) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(HomeMenu.this, WelcomeActivity.class));
         }
 
 

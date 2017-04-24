@@ -9,4 +9,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_for_nav_drwaer" tools:context="android.projectv2.HomeMenu">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to crop tracker your companion in keeping records for all your crops"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="78dp"
+        android:textSize="24dp"
+        android:textIsSelectable="false"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp" />
 </RelativeLayout>

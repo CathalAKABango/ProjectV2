@@ -45,6 +45,8 @@ public class AddCrop extends AppCompatActivity {
         dateplan =(EditText)findViewById(R.id.DatePlantingNewCrop);
         croptoadd = (EditText)findViewById(R.id.cropadded);
 
+        save.setVisibility(View.GONE);
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyy", Locale.getDefault());
         String date = dateFormat.format(Calendar.getInstance().getTime());
         dateplan.setText(date);
@@ -55,82 +57,90 @@ public class AddCrop extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String year = yearin.getText().toString();
                 DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
                 String name = mFirebaseAuth.getCurrentUser().getDisplayName();
 
                 final String fieldinsearch = fieldnamein.getText().toString();
-                queryword = fieldinsearch+year;
+                queryword = fieldinsearch + year;
 
-                DatabaseReference fileds = myRef1.child("users").child(name);
-                final Query filedQuery = fileds.orderByKey().startAt(queryword).endAt(queryword + "\uf8ff");
+                if (queryword.equals("")) {
+                    Toast.makeText(AddCrop.this, "Please fill in details", Toast.LENGTH_SHORT).show();
+                } else {
 
-                filedQuery.addChildEventListener(new ChildEventListener()  {
+                    DatabaseReference fileds = myRef1.child("users").child(name);
+                    final Query filedQuery = fileds.orderByKey().startAt(queryword).endAt(queryword + "\uf8ff");
 
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
-                        if (pulldown.containsValue(year)){
-                            canUpdate = true;
-                            crp = pulldown.get("Crop").toString();
-                            spry = pulldown.get("Spray applied").toString();
-                            commen = pulldown.get("Comments").toString();
-                            dasparayed = pulldown.get("Date Of Spraying").toString();
-                            daplanted = pulldown.get("Date Plented").toString();
-                            locatio = pulldown.get("Location").toString();
-                            yeardown = pulldown.get("Year").toString();
-                            Toast.makeText(AddCrop.this,  "Field Found Add Crop", Toast.LENGTH_SHORT).show();
+                    filedQuery.addChildEventListener(new ChildEventListener() {
+
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
+                            if (pulldown.containsValue(year)) {
+                                canUpdate = true;
+                                crp = pulldown.get("Crop").toString();
+                                spry = pulldown.get("Spray applied").toString();
+                                commen = pulldown.get("Comments").toString();
+                                dasparayed = pulldown.get("Date Of Spraying").toString();
+                                daplanted = pulldown.get("Date Plented").toString();
+                                locatio = pulldown.get("Location").toString();
+                                yeardown = pulldown.get("Year").toString();
+                                Toast.makeText(AddCrop.this, "Field Found Add Crop", Toast.LENGTH_SHORT).show();
+                                save.setVisibility(View.VISIBLE);
+                            }
                         }
-                        else {
-                            Toast.makeText(AddCrop.this, "Sorry no results for that year", Toast.LENGTH_SHORT).show();
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
                         }
-                    }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                    }
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        }
 
-                    }
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        }
 
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
 
-                    }
-                });
+                }
             }
         });
+
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-            if (canUpdate = true) {
+
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
-                        String username = mFirebaseAuth.getCurrentUser().getDisplayName();
-                        final HashMap<String, String> map1 = new HashMap<>();
-                        map1.put("Crop", croptoadd.getText().toString() + crp);
-                        map1.put("Spray applied", spry);
-                        map1.put("Date Of Spraying", dasparayed);
-                        map1.put("Date Plented", dateplan.getText().toString() + daplanted);
-                        map1.put("Location", locatio);
-                        map1.put("Comments", commen);
-                        map1.put("Year", yeardown);
-                        mFirebaseDatabase.child("users").child(username).child(queryword).setValue(map1);
-                        Toast.makeText(AddCrop.this, "Records have been updated", Toast.LENGTH_SHORT).show();
-
+                        if (croptoadd.equals("")) {
+                            Toast.makeText(AddCrop.this, "Sorry You need to search for field first", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
+                            String username = mFirebaseAuth.getCurrentUser().getDisplayName();
+                            final HashMap<String, String> map1 = new HashMap<>();
+                            map1.put("Crop", croptoadd.getText().toString() + crp);
+                            map1.put("Spray applied", spry);
+                            map1.put("Date Of Spraying", dasparayed);
+                            map1.put("Date Plented", dateplan.getText().toString() + daplanted);
+                            map1.put("Location", locatio);
+                            map1.put("Comments", commen);
+                            map1.put("Year", yeardown);
+                            mFirebaseDatabase.child("users").child(username).child(queryword).setValue(map1);
+                            Toast.makeText(AddCrop.this, "Records have been updated", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
-            } else {
-                Toast.makeText(AddCrop.this, "Sorry YOu need TO search for field first", Toast.LENGTH_SHORT).show();
-            }
+
 
 
         home.setOnClickListener(new View.OnClickListener() {

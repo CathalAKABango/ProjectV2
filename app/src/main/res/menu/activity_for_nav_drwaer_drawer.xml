@@ -22,8 +22,8 @@
             <menu>
                 <item android:id="@+id/history"
                     android:title="Search for Field History" />
-                <item android:id="@+id/historywithmap"
-                    android:title="Search for Field History With Maps" />
+                <!--<item android:id="@+id/historywithmap"-->
+                    <!--android:title="Search for Field History With Maps" />-->
             </menu>
         </item>
         <item android:title="Logout">

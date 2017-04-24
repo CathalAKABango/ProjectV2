@@ -33,6 +33,7 @@ public class CropWalk extends AppCompatActivity {
     private String myFirebaseUser;
     private String queryword = "";
     private FirebaseAuth mFirebaseAuth;
+    private Map<String, Object> pulldown;
     Button search, save,btnSpeak, homebtn;
     String crp, spry, commen,dasparayed,daplanted,locatio,yeardown;
     EditText fieldnamein, yearin, commentsin;
@@ -52,6 +53,8 @@ public class CropWalk extends AppCompatActivity {
         btnSpeak = (Button)findViewById(R.id.btnSpeak);
         homebtn = (Button)findViewById(R.id.homebtn);
 
+        save.setVisibility(View.GONE);
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
 
@@ -63,6 +66,10 @@ public class CropWalk extends AppCompatActivity {
                 String name = mFirebaseAuth.getCurrentUser().getDisplayName();
                 final String fieldnametoquery = fieldnamein.getText().toString();
                 queryword = fieldnametoquery+year;
+                if (queryword.equals("")) {
+                    Toast.makeText(CropWalk.this, "Please fill in details", Toast.LENGTH_SHORT).show();
+                } else {
+
                 DatabaseReference fileds = myRef1.child("users").child(name);
                 final Query filedQuery = fileds.orderByKey().startAt(queryword).endAt(queryword + "\uf8ff");
 
@@ -70,7 +77,7 @@ public class CropWalk extends AppCompatActivity {
 
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Map<String, Object> pulldown = (Map<String, Object>) dataSnapshot.getValue();
+                        pulldown = (Map<String, Object>) dataSnapshot.getValue();
                         if (pulldown.containsValue(year)){
                              crp = pulldown.get("Crop").toString();
                              spry = pulldown.get("Spray applied").toString();
@@ -79,7 +86,8 @@ public class CropWalk extends AppCompatActivity {
                             daplanted = pulldown.get("Date Plented").toString();
                              locatio = pulldown.get("Location").toString();
                             yeardown = pulldown.get("Year").toString();
-                            Toast.makeText(CropWalk.this, pulldown+"add comment", Toast.LENGTH_SHORT).show();}
+                            Toast.makeText(CropWalk.this, pulldown+"add comment", Toast.LENGTH_SHORT).show();
+                        save.setVisibility(View.VISIBLE);}
                         else {
                             Toast.makeText(CropWalk.this, "Sorry no results for that year", Toast.LENGTH_SHORT).show();
                         }
@@ -104,7 +112,7 @@ public class CropWalk extends AppCompatActivity {
 
                     }
                 });
-            }
+            }}
         });
         mFirebaseAuth = FirebaseAuth.getInstance();
 
@@ -119,7 +127,7 @@ public class CropWalk extends AppCompatActivity {
                 map1.put("Date Of Spraying", dasparayed);
                 map1.put("Date Plented", daplanted);
                 map1.put("Location", locatio);
-                map1.put("Comments", commentsin.getText().toString());
+                map1.put("Comments", commentsin.getText().toString()+commen);
                 map1.put("Year", yeardown);
                 mFirebaseDatabase.child("users").child(username).child(queryword).setValue(map1);
                 addNotification();
@@ -183,7 +191,9 @@ btnSpeak.setOnClickListener(new View.OnClickListener() {
                         .setContentTitle("Crop Tracker ")
                         .setContentText("A crop walk has just being completed");
 
-        Intent notificationIntent = new Intent(this, CropWalk.class);
+        Intent notificationIntent = new Intent(this, ViewHistory.class);
+        notificationIntent.putExtra("details", commentsin.getText().toString());
+//        startActivity(notificationIntent);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
