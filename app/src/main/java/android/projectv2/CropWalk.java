@@ -1,9 +1,13 @@
 package android.projectv2;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +31,9 @@ public class CropWalk extends AppCompatActivity {
 
     private DatabaseReference mFirebaseDatabase;
     private String myFirebaseUser;
+    private String queryword = "";
     private FirebaseAuth mFirebaseAuth;
-    Button search, save,btnSpeak;
+    Button search, save,btnSpeak, homebtn;
     String crp, spry, commen,dasparayed,daplanted,locatio,yeardown;
     EditText fieldnamein, yearin, commentsin;
 
@@ -45,6 +50,7 @@ public class CropWalk extends AppCompatActivity {
         yearin = (EditText)findViewById(R.id.CropWalkYear);
         commentsin = (EditText)findViewById(R.id.CropWalkComments);
         btnSpeak = (Button)findViewById(R.id.btnSpeak);
+        homebtn = (Button)findViewById(R.id.homebtn);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
@@ -55,7 +61,8 @@ public class CropWalk extends AppCompatActivity {
                 final String year = yearin.getText().toString();
                 DatabaseReference myRef1 = FirebaseDatabase.getInstance().getReference();
                 String name = mFirebaseAuth.getCurrentUser().getDisplayName();
-                final String queryword = fieldnamein.getText().toString();
+                final String fieldnametoquery = fieldnamein.getText().toString();
+                queryword = fieldnametoquery+year;
                 DatabaseReference fileds = myRef1.child("users").child(name);
                 final Query filedQuery = fileds.orderByKey().startAt(queryword).endAt(queryword + "\uf8ff");
 
@@ -100,9 +107,6 @@ public class CropWalk extends AppCompatActivity {
             }
         });
         mFirebaseAuth = FirebaseAuth.getInstance();
-//        myFirebaseUser = mFirebaseAuth.getCurrentUser().getDisplayName();
-
-
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,15 +114,15 @@ public class CropWalk extends AppCompatActivity {
                 mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
                 String username = mFirebaseAuth.getCurrentUser().getDisplayName();
                 final HashMap<String, String> map1 = new HashMap<>();
-                map1.put("Crop",  crp);
+                map1.put("Crop", crp);
                 map1.put("Spray applied", spry);
                 map1.put("Date Of Spraying", dasparayed);
                 map1.put("Date Plented", daplanted);
                 map1.put("Location", locatio);
                 map1.put("Comments", commentsin.getText().toString());
                 map1.put("Year", yeardown);
-                mFirebaseDatabase.child("users").child(username).child(fieldnamein.getText().toString()).setValue(map1);
-
+                mFirebaseDatabase.child("users").child(username).child(queryword).setValue(map1);
+                addNotification();
 
 
             }
@@ -129,6 +133,12 @@ btnSpeak.setOnClickListener(new View.OnClickListener() {
         promptSpeechInput();
     }
 });
+        homebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CropWalk.this, HomeMenu.class));
+            }
+        });
     }
 
     private void promptSpeechInput() {
@@ -137,7 +147,7 @@ btnSpeak.setOnClickListener(new View.OnClickListener() {
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Say Something");
+                "Talk About The Crop");
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
@@ -165,5 +175,21 @@ btnSpeak.setOnClickListener(new View.OnClickListener() {
 
         }
 
+    }
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.tractor)
+                        .setContentTitle("Crop Tracker ")
+                        .setContentText("A crop walk has just being completed");
+
+        Intent notificationIntent = new Intent(this, CropWalk.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
     }
 }

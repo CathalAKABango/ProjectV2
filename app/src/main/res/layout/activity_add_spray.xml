@@ -5,62 +5,68 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="android.projectv2.CropWalk">
+    tools:context="android.projectv2.AddSpray">
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/CropWalkField"
-        android:layout_alignParentTop="true"
         android:hint="Field name"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/searchforfield" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/CropWalkYear"
-        android:layout_below="@+id/CropWalkField"
         android:hint="Year"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CropWalkComments"
-        android:layout_below="@+id/CropWalkYear"
-        android:hint="Comments an crop"
+        android:layout_below="@+id/CropWalkField"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search for field"
-        android:id="@+id/searchforcropwalk"
-        android:layout_below="@+id/CropWalkComments"
-        android:layout_alignStart="@+id/CropWalkComments" />
+        android:id="@+id/searchforfield"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/SprayApplied"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
 
-    <Button
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update Comments"
-        android:id="@+id/updateCropWalk"
-        android:layout_below="@+id/btnSpeak"
-        android:layout_alignStart="@+id/searchforcropwalk" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Speech to text"
-        android:id="@+id/btnSpeak"
-        android:layout_below="@+id/searchforcropwalk"
+        android:id="@+id/SprayApplied"
+        android:hint="Spray being applied"
+        android:layout_below="@+id/CropWalkYear"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/DatePlantingNewCrop"
+        android:hint="Date"
+        android:layout_below="@+id/SprayApplied"
+        android:layout_alignEnd="@+id/CropWalkYear" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save to spraying record"
+        android:id="@+id/Savespraying"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/searchforfield"
+        android:layout_toEndOf="@+id/BacktoHome"
+        android:layout_marginTop="51dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
-        android:id="@+id/homebtn"
+        android:id="@+id/BacktoHome"
+        android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>
+

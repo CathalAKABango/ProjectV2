@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Create" >
+        <menu>
+            <item android:id="@+id/creaeField"
+                android:title="Create Field With Maps" />
+            <item android:id="@+id/createwithmap"
+                android:title="Create Field Without Maps" />
+        </menu>
+    </item>
+    <item android:title="Add Records">
+        <menu>
+            <item android:id="@+id/adcrop"
+                android:title="Add a Crop" />
+            <item android:id="@+id/addspray"
+                android:title="Add a Spray" />
+            <item android:id="@+id/addcropwalk"
+                android:title="Add a Crop Walk" />
+        </menu>
+        <item android:title="Search">
+            <menu>
+                <item android:id="@+id/history"
+                    android:title="Search for Field History" />
+                <item android:id="@+id/historywithmap"
+                    android:title="Search for Field History With Maps" />
+            </menu>
+        </item>
+        <item android:title="Logout">
+            <menu>
+                <item android:id="@+id/signout"
+                    android:title="Logout" />
+
+            </menu>
+        </item>
+    </item>
+
+
+</menu>

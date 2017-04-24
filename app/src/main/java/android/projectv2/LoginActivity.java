@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if(auth.getCurrentUser() != null){
-            startActivity(new Intent(LoginActivity.this, MainMenu.class));
+            startActivity(new Intent(LoginActivity.this, HomeMenu.class));
         }
 
         login = (Button)findViewById(R.id.loginButton);
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            Intent intent = new Intent(LoginActivity.this, MainMenu.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeMenu.class);
                             startActivity(intent);
                             finish();
                         }

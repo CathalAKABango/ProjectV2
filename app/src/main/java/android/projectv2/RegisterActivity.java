@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
-                                    startActivity(new Intent(RegisterActivity.this, MainMenu.class));
+                                    startActivity(new Intent(RegisterActivity.this, HomeMenu.class));
                                     finish();
                                 }
                             }

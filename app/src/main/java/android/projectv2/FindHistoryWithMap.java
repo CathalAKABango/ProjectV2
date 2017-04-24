@@ -2,12 +2,10 @@ package android.projectv2;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -55,7 +53,7 @@ public class FindHistoryWithMap extends AppCompatActivity implements
         SupportMapFragment googleMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googleMap.getMapAsync(this);
         back = (Button)findViewById(R.id.backButton);
-        maptype = (Button)findViewById(R.id.typeofmap);
+//        maptype = (Button)findViewById(R.id.typeofmap);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

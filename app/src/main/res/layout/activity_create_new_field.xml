@@ -23,15 +23,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/Crop"
         android:hint="Crop This Season"
-        android:layout_above="@+id/spray"
-        android:layout_alignStart="@+id/Fieldname" />
+        android:layout_below="@+id/Year"
+        android:layout_alignStart="@+id/Year" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spray"
         android:hint="Spray being applied"
-        android:layout_above="@+id/dateCropPlanted"
+        android:layout_below="@+id/Crop"
         android:layout_alignStart="@+id/Crop" />
 
     <EditText
@@ -41,7 +41,7 @@
         android:ems="10"
         android:id="@+id/dateCropPlanted"
         android:hint="Date of crop planted"
-        android:layout_above="@+id/dateofspraying"
+        android:layout_below="@+id/spray"
         android:layout_alignStart="@+id/spray" />
 
     <EditText
@@ -51,7 +51,7 @@
         android:ems="10"
         android:id="@+id/dateofspraying"
         android:hint="Date of spraying"
-        android:layout_above="@+id/Comments"
+        android:layout_below="@+id/dateCropPlanted"
         android:layout_alignStart="@+id/dateCropPlanted" />
 
     <EditText
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/Comments"
         android:hint="General comments"
-        android:layout_above="@+id/area"
+        android:layout_below="@+id/dateofspraying"
         android:layout_alignStart="@+id/dateofspraying" />
 
     <Button
@@ -68,16 +68,17 @@
         android:text="Save Data"
         android:id="@+id/Savebutton"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        android:layout_toEndOf="@+id/dateofspraying"
+        android:background="@color/colorPrimary"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Data"
+        android:text="Home"
         android:id="@+id/Viewbutton"
-        android:layout_above="@+id/Savebutton"
-        android:layout_alignStart="@+id/Savebutton" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -86,7 +87,7 @@
         android:text="Field area"
         android:editable="false"
         android:lines="1"
-        android:layout_above="@+id/Viewbutton"
+        android:layout_below="@+id/Comments"
         android:layout_alignStart="@+id/Comments" />
 
     <EditText
